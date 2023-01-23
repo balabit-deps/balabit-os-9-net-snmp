@@ -42,3 +42,7 @@ lp1945960-Fix-the-build-against-OpenSSL-3.0.patch
 lp1969623-net-snmp-create-v3-user-Fix-the-snmpd.conf-path.patch
 CVE-2022-248xx-1.patch
 CVE-2022-248xx-2.patch
+CVE-2022-4479x-1.patch
+CVE-2022-4479x-2.patch
+CVE-2022-4479x-3.patch
+restore-support-for-long-dns-names.patch

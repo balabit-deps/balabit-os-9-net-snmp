@@ -1,3 +1,26 @@
+net-snmp (5.9.1+dfsg-1ubuntu2.5) jammy; urgency=medium
+
+  * d/p/restore-support-for-long-dns-names.patch: Fix snmp requests for domains
+    longer than 63 characters (LP: #1998461)
+
+ -- Lena Voytek <lena.voytek@canonical.com>  Mon, 23 Jan 2023 11:33:32 -0700
+
+net-snmp (5.9.1+dfsg-1ubuntu2.4) jammy-security; urgency=medium
+
+  * SECURITY UPDATE: DoS via null pointer exception issues
+    - debian/patches/CVE-2022-4479x-1.patch: disallow SET with NULL varbind
+      in agent/snmp_agent.c.
+    - debian/patches/CVE-2022-4479x-2.patch: allow SET with NULL varbind
+      for testing in apps/snmpset.c.
+    - debian/patches/CVE-2022-4479x-3.patch: add test for NULL varbind set
+      in testing/fulltests/default/T0142snmpv2csetnull_simple.
+    - CVE-2022-44792
+    - CVE-2022-44793
+  * This package does _not_ contain the changes from 5.9.1+dfsg-1ubuntu2.3
+    in jammy-proposed.
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Fri, 06 Jan 2023 11:02:17 -0500
+
 net-snmp (5.9.1+dfsg-1ubuntu2.2) jammy-security; urgency=medium
 
   * SECURITY UPDATE: Multiple security issus
