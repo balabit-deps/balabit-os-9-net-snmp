@@ -1,3 +1,12 @@
+net-snmp (5.9.1+dfsg-1ubuntu2.6) jammy; urgency=medium
+
+  * Fix snmptrapd reconnection issue after hitting MySQL wait_timeout
+    (LP: #1999711)
+    - d/p/snmptrapd-mysql-reconnection-after-hitting-wait_timeout.patch
+    - d/p/snmptrapd-mysql-fix-build-error.patch
+
+ -- Chengen Du <chengen.du@canonical.com>  Fri, 17 Feb 2023 03:25:16 +0000
+
 net-snmp (5.9.1+dfsg-1ubuntu2.5) jammy; urgency=medium
 
   * d/p/restore-support-for-long-dns-names.patch: Fix snmp requests for domains

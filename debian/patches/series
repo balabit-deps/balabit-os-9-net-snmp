@@ -46,3 +46,5 @@ CVE-2022-4479x-1.patch
 CVE-2022-4479x-2.patch
 CVE-2022-4479x-3.patch
 restore-support-for-long-dns-names.patch
+snmptrapd-mysql-reconnection-after-hitting-wait_timeout.patch
+snmptrapd-mysql-fix-build-error.patch
