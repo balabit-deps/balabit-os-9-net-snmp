@@ -1,0 +1,56 @@
+From d4b58c60367a262d829eb33e7888d28cd4337481 Mon Sep 17 00:00:00 2001
+From: Bart Van Assche <bvanassche@acm.org>
+Date: Thu, 5 Aug 2021 18:56:50 -0700
+Subject: [PATCH] IF-MIB: Fix a recently introduced use-after-free
+
+Do not free the netsnmp_interface_entry corresponding to the previous line
+from /proc/dev/net if an interface disappeared. Additionally, reduce the
+scope of the 'entry' variable.
+
+Fixes: 600c54135b10 ("IF-MIB, IP-FORWARD-MIB: Improve robustness")
+
+Bug: https://github.com/net-snmp/net-snmp/issues/107
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/net-snmp/+bug/720638
+Origin: upstream, https://github.com/net-snmp/net-snmp/commit/d4b58c60367a262d829eb33e7888d28cd4337481
+Last-Update: 2024-09-17
+---
+ agent/mibgroup/if-mib/data_access/interface_linux.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/agent/mibgroup/if-mib/data_access/interface_linux.c b/agent/mibgroup/if-mib/data_access/interface_linux.c
+index 9d9b2ceb3a..ea7389682c 100644
+--- a/agent/mibgroup/if-mib/data_access/interface_linux.c
++++ b/agent/mibgroup/if-mib/data_access/interface_linux.c
+@@ -609,7 +609,6 @@ netsnmp_arch_interface_container_load(netsnmp_container* container,
+ {
+     FILE           *devin;
+     char            line[256];
+-    netsnmp_interface_entry *entry = NULL;
+     static char     scan_expected = 0;
+     int             fd;
+     int             interfaces = 0;
+@@ -690,6 +689,7 @@ netsnmp_arch_interface_container_load(netsnmp_container* container,
+      *   and retrieve (or create) the corresponding data structure.
+      */
+     while (fgets(line, sizeof(line), devin)) {
++        netsnmp_interface_entry *entry = NULL;
+         char           *stats, *ifstart = line;
+         u_int           flags;
+         oid             if_index;
+@@ -738,7 +738,7 @@ netsnmp_arch_interface_container_load(netsnmp_container* container,
+         if (if_index == 0) {
+             DEBUGMSGTL(("access:interface", "network interface %s is gone",
+                         ifstart));
+-            goto free_entry;
++            continue;
+         }
+ #ifdef NETSNMP_ENABLE_IPV6
+         _arch_interface_has_ipv6(if_index, &flags, addr_container);
+@@ -933,7 +933,6 @@ netsnmp_arch_interface_container_load(netsnmp_container* container,
+                              "Encountered interface with index %" NETSNMP_PRIz "u twice: %s <> %s",
+                              entry->index, existing ? existing->name : "(?)",
+                              entry->name));
+-free_entry:
+             netsnmp_access_interface_entry_free(entry);
+         }
+     }

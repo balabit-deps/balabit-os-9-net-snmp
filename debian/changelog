@@ -1,3 +1,17 @@
+net-snmp (5.9.1+dfsg-1ubuntu2.7) jammy; urgency=medium
+
+  * d/patches: apply patch set to fix segfault caused by use after free.
+    (LP: #720638)
+    - d/p/pass-nw-if.patch: pass network interface index to
+      netsnmp_access_interface_entry_create.
+    - d/p/fix-memory-leak.patch: fix possible memory leak when reading network
+      interfaces.
+    - d/p/fix-if-race-cond.patch: fix race condition when scanning network
+      interfaces.
+    - d/p/fix-use-after-free.patch: fix use after free.
+
+ -- Athos Ribeiro <athos.ribeiro@canonical.com>  Tue, 27 Aug 2024 20:20:43 -0300
+
 net-snmp (5.9.1+dfsg-1ubuntu2.6) jammy; urgency=medium
 
   * Fix snmptrapd reconnection issue after hitting MySQL wait_timeout
